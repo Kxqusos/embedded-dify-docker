@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
-envsubst '${HTTP_PORT} ${COREDUMP_DIR} ${REVERSE_PROXY_PORT} ${SANDBOX_HOST} ${SANDBOX_PORT}' \
-  < /etc/squid/squid.conf.template > /etc/squid/squid.conf
+sed "s|\${HTTP_PORT}|${HTTP_PORT}|g; s|\${COREDUMP_DIR}|${COREDUMP_DIR}|g; s|\${REVERSE_PROXY_PORT}|${REVERSE_PROXY_PORT}|g; s|\${SANDBOX_HOST}|${SANDBOX_HOST}|g; s|\${SANDBOX_PORT}|${SANDBOX_PORT}|g" \
+  /etc/squid/squid.conf.template > /etc/squid/squid.conf
 
 mkdir -p /var/spool/squid
 chown -R proxy:proxy /var/spool/squid
