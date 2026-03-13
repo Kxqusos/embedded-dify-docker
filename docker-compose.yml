@@ -54,12 +54,12 @@ x-shared-env: &shared-api-worker-env
   FORCE_VERIFYING_SIGNATURE: "true"
 
 services:
-  # ───────────────── BAAI/bge-m3 via Text Embeddings Inference ─────────────────
+  # ───────────────── Qwen3-Embedding-0.6B via Text Embeddings Inference ────────
   embedding:
     image: ghcr.io/huggingface/text-embeddings-inference:cpu-1.8
     restart: always
     environment:
-      MODEL_ID: BAAI/bge-m3
+      MODEL_ID: Qwen/Qwen3-Embedding-0.6B
     volumes:
       - ./volumes/embedding/models:/data
     ports:
