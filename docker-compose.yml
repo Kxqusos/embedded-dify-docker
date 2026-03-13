@@ -1,6 +1,6 @@
 services:
   embedding:
-    image: ghcr.io/huggingface/text-embeddings-inference:cpu-1.8
+    image: ghcr.io/huggingface/text-embeddings-inference:1.8
     restart: always
     environment:
       MODEL_ID: Qwen/Qwen3-Embedding-0.6B
