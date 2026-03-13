@@ -13,8 +13,6 @@ http {
 
     proxy_read_timeout ${NGINX_PROXY_READ_TIMEOUT};
     proxy_send_timeout ${NGINX_PROXY_SEND_TIMEOUT};
-    proxy_buffering off;
-    proxy_request_buffering off;
 
     log_format main '$remote_addr - $remote_user [$time_local] "$request" '
                     '$status $body_bytes_sent "$http_referer" '
@@ -39,7 +37,6 @@ http {
         listen ${NGINX_PORT};
         server_name ${NGINX_SERVER_NAME};
 
-        # API
         location /console/api {
             proxy_pass http://dify_api;
             include /etc/nginx/proxy.conf;
@@ -65,34 +62,9 @@ http {
             include /etc/nginx/proxy.conf;
         }
 
-        # Web
         location / {
             proxy_pass http://dify_web;
             include /etc/nginx/proxy.conf;
         }
-
-        # SSE support
-        location ~* ^/(api|console/api|v1) {
-            proxy_pass http://dify_api;
-            include /etc/nginx/proxy.conf;
-            proxy_set_header Connection '';
-            proxy_http_version 1.1;
-            chunked_transfer_encoding off;
-            proxy_buffering off;
-            proxy_cache off;
-        }
     }
-
-    # HTTPS server (enabled via NGINX_HTTPS_ENABLED=true)
-    # Uncomment and configure if needed:
-    # server {
-    #     listen ${NGINX_SSL_PORT} ssl;
-    #     server_name ${NGINX_SERVER_NAME};
-    #
-    #     ssl_certificate     /etc/ssl/dify/${NGINX_SSL_CERT_FILENAME};
-    #     ssl_certificate_key /etc/ssl/dify/${NGINX_SSL_CERT_KEY_FILENAME};
-    #     ssl_protocols       ${NGINX_SSL_PROTOCOLS};
-    #
-    #     # same location blocks as above ...
-    # }
 }
