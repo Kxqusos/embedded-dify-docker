@@ -64,6 +64,7 @@ services:
       - ./volumes/embedding/models:/data
     ports:
       - "${EXPOSE_TEI_PORT:-8090}:80"
+    command: ["--auto-truncate"]
     deploy:
       resources:
         limits:
